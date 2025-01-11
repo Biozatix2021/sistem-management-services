@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alat;
 use App\Models\M_Uji_Fungsi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UjiFungsiController extends Controller
 {
@@ -50,7 +51,24 @@ class UjiFungsiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'alat_id' => 'required',
+        ];
+
+        $text = [
+            'alat_id.required' => 'ID Alat tidak boleh kosong',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $text);
+
+        if ($validator->fails()) {
+            # code...
+            return response()->json(['success' => 0, 'text' => $validator->errors()->first()], 422);
+        }
+
+        $alat_id = $request->input('alat_id');
+        $item = $request->input('item');
+        $item = $request->input('qty');
     }
 
     /**

@@ -66,7 +66,7 @@
                             <h4 class="modal-title">Tambah Data</h4>
                         </div>
                         <div class="modal-body">
-                            <form id="form-tambah-sop-alat" name="form-tambah-sop-alat">
+                            <form id="form-data-uji-fungsi-alat" name="form-data-uji-fungsi-alat">
                                 @csrf
                                 <div class="form-group">
                                     <div id="input-container">
@@ -81,7 +81,8 @@
                                             <label for="item">Item Check</label>
                                             <div class="input-group" style="display: flex; align-items: center;">
                                                 <input type="text" class="form-control" name="item[]" placeholder="Enter item check" style="flex: 1; margin-right: 5px;">
-                                                <input type="number" class="form-control" name="qty[]" placeholder="Enter qty" style="width: 20%;">
+                                                <input type="number" class="form-control" name="qty[]" placeholder="Enter qty" style="width: 10%;">
+                                                <input type="text" class="form-control" name="satuan[]" placeholder="Enter satuan" style="width: 20%; margin-left: 5px;">
                                             </div>
                                         </div>
                                     </div>
@@ -115,11 +116,12 @@
             $('#add-input').click(function() {
                 $('#input-container').append(`
                 <div class="form-group">
-                    <label for="item">Item Check</label>
+                    
                         <div class="input-group" style="display: flex; align-items: center;">
                             <input type="text" class="form-control" name="item[]" placeholder="Enter item check" style="flex: 1; margin-right: 5px;">
+                            <input type="number" class="form-control" name="qty[]" placeholder="qty" style="width: 10%; margin-right: 5px;">
                                 <div class="input-group">
-                                        <input type="number" class="form-control" name="qty[]" placeholder="qty" style="width: 50%;">
+                                        <input type="text" class="form-control" name="satuan[]" placeholder="Enter Satuan" style="width: 70%;">
                                     <div class="input-group-append">
                                         <button class="btn btn-danger remove-input" type="button"><i class="fa fa-minus"></i></button>
                                     </div>
@@ -139,18 +141,18 @@
         });
 
         function save_data() {
-            var form = $('#form-tambah-sop-alat')[0];
+            var form = $('#data-uji-fungsi-alat')[0];
             var formData = new FormData(form);
 
             console.log(form);
             $.ajax({
                 type: 'POST',
-                url: "{{ route('sop-alat.store') }}",
+                url: "{{ route('data-uji-fungsi.store') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    $('#tambah-data-sop-alat').modal('hide');
+                    $('#tambah-data-uji-fungsi-alat').modal('hide');
                     table.ajax.reload();
                 },
                 error: function(data) {
