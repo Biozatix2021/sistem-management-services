@@ -141,7 +141,7 @@
         });
 
         function save_data() {
-            var form = $('#data-uji-fungsi-alat')[0];
+            var form = $('#form-data-uji-fungsi-alat')[0];
             var formData = new FormData(form);
 
             console.log(form);

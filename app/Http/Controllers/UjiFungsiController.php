@@ -68,7 +68,19 @@ class UjiFungsiController extends Controller
 
         $alat_id = $request->input('alat_id');
         $item = $request->input('item');
-        $item = $request->input('qty');
+        $qty = $request->input('qty');
+        $satuan = $request->input('satuan');
+
+        foreach ($item as $key => $value) {
+            $data = new M_Uji_Fungsi();
+            $data->alat_id = $alat_id;
+            $data->item = $value;
+            $data->qty = $qty[$key];
+            $data->satuan = $satuan[$key];
+            $data->save();
+        }
+
+        return response()->json(['success' => 1, 'text' => 'Data berhasil disimpan'], 200);
     }
 
     /**
