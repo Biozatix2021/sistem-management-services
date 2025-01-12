@@ -28,7 +28,7 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             </a>
         </li>
-        <li class="treeview {{ in_array(request()->path(), ['alat', 'teknisi', 'rumah-sakit', 'sop-alat', 'buat-data-uji-fungsi']) ? 'active' : '' }}">
+        <li class="treeview {{ in_array(request()->path(), ['alat', 'teknisi', 'rumah-sakit', 'sop-alat', 'buat-data-uji-fungsi', 'data-perusahaan']) ? 'active' : '' }}">
             <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Master Data</span>
@@ -37,6 +37,7 @@
                 </span>
             </a>
             <ul class="treeview-menu ">
+                <li class="{{ request()->is('data-perusahaan') ? 'active' : '' }}"><a href="/data-perusahaan"><i class="fa fa-circle-o"></i> Data Perusahaan</a></li>
                 <li class="{{ request()->is('alat') ? 'active' : '' }}"><a href="/alat"><i class="fa fa-circle-o"></i> Data Alat</a></li>
                 <li class="{{ request()->is('teknisi') ? 'active' : '' }}"><a href="/teknisi"><i class="fa fa-circle-o"></i> Data Teknisi</a></li>
                 <li class="{{ request()->is('rumah-sakit') ? 'active' : '' }}"><a href="/rumah-sakit"><i class="fa fa-circle-o"></i>Data Rumah Sakit</a></li>

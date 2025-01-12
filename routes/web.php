@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlatController;
 use App\Http\Controllers\InstalasiAlatController;
+use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\TeknisiController;
 use App\Http\Controllers\RumahSakitController;
 use App\Http\Controllers\SopAlatController;
@@ -19,3 +20,6 @@ Route::resource('sop-alat', SopAlatController::class)->names('sop-alat');
 Route::resource('data-uji-fungsi', UjiFungsiController::class)->names('data-uji-fungsi');
 Route::resource('uji-fungsi', UjiFungsiController::class)->names('uji-fungsi');
 Route::resource('instalasi-alat', InstalasiAlatController::class)->names('instalasi-alat');
+Route::get('data-perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
+Route::post('perusahaan/store', [PerusahaanController::class, 'store'])->name('perusahaan.store');
+Route::delete('perusahaan/delete/{id}', [PerusahaanController::class, 'destroy'])->name('perusahaan.delete');
