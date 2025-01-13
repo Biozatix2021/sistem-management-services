@@ -30,7 +30,6 @@
 
         <!-- /.Body start -->
         <div class="box-body">
-
             <div class="modal fade" id="tambah-data-alat" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -65,7 +64,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="data-tables">
                 <table id="tabelAlat" class="table table-bordered table-hover" width="100%">
