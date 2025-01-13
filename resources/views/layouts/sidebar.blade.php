@@ -106,7 +106,7 @@
         </li> --}}
         <li>
             <a href="../calendar.html">
-                <i class="fa fa-envelope"></i> <span>Pesan Pengaduan</span>
+                <i class="fa fa-envelope"></i> <span>Permintaan Perbaikan</span>
                 <span class="pull-right-container">
                     <small class="label pull-right bg-red">3</small>
                 </span>
