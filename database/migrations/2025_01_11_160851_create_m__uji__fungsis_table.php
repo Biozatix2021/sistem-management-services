@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m__uji__fungsis');
+        Schema::dropIfExists('m_uji_fungsis');
     }
 };

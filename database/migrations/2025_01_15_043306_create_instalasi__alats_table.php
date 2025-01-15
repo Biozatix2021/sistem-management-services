@@ -11,8 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instalasi__alats', function (Blueprint $table) {
+        Schema::create('instalasi_alats', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_alat', 100);
+            $table->string('merk', 100);
+            $table->string('tipe', 100);
+            $table->string('no_seri', 100);
+            $table->string('lokasi', 100);
+            $table->string('foto', 50);
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('alat_id')->constrained('alats');
+            $table->unsignedBigInteger('rumah_sakit_id');
+            $table->foreign('rumah_sakit_id')->references('id')->on('rumah_sakits');
+            $table->softDeletes();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instalasi__alats');
+        Schema::dropIfExists('instalasi_alats');
     }
 };

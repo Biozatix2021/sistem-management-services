@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nama', 100);
             $table->string('type', 100);
+            $table->string('merk', 100);
+            $table->string('no_seri', 100);
+            $table->string('foto', 100);
             $table->timestamps();
         });
     }
