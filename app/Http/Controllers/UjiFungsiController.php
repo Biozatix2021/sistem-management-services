@@ -14,6 +14,32 @@ class UjiFungsiController extends Controller
      */
     public function index()
     {
+        // $filter = request('filter');
+        // $alat = Alat::select('id', 'nama', 'type')->get();
+
+        // if (request()->ajax()) {
+        //     $data = M_Uji_Fungsi::select('id', 'alat_id', 'item', 'qty', 'satuan')
+        //         ->where('alat_id', $filter)
+        //         ->get();
+        //     return datatables()->of($data)
+        //         ->addIndexColumn()
+        //         ->addColumn('action', function ($data) {
+        //             $button = '<center>
+        //                         <div class="btn-group" role="group" aria-label="Basic example">
+        //                             <button type="button" class="btn btn-xs btn-danger" onclick="delete_data(' . $data->id . ')">Delete</button>
+        //                         </div></center>';
+        //             return $button;
+        //         })
+        //         ->rawColumns(['action'])
+        //         ->make(true);
+        // }
+        // return view('m_data_uji_fungsi', [
+        //     'alats' => $alat,
+        // ]);
+    }
+
+    public function template_uji_fungsi()
+    {
         $filter = request('filter');
         $alat = Alat::select('id', 'nama', 'type')->get();
 
