@@ -31,6 +31,7 @@
 
         <!-- /.Body start -->
         <div class="box-body">
+
         </div>
     </div>
 @endsection
