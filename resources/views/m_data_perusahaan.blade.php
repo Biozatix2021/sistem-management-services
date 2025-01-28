@@ -173,7 +173,6 @@
             var form = $('#form-tambah-data-perusahaan')[0];
             var formData = new FormData(form);
 
-            console.log(form);
             $.ajax({
                 type: 'POST',
                 url: "{{ route('perusahaan.store') }}",
@@ -181,7 +180,7 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    toastr.success(data.responseJSON.text);
+                    toastr.success('Data berhasil disimpan');
                     $('#tambah-data-perusahaan').modal('hide');
                     table.ajax.reload();
                     $('#form-tambah-data-perusahaan')[0].reset();
@@ -200,9 +199,11 @@
                     url: "{{ url('perusahaan/delete') }}" + '/' + id,
                     success: function(data) {
                         table.ajax.reload();
+                        toastr.success('Data berhasil dihapus');
                     },
                     error: function(data) {
                         console.log('Error:', data);
+                        toastr.error('Data gagal dihapus');
                     }
                 });
             }

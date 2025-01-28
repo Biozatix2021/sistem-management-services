@@ -132,6 +132,12 @@
             });
 
 
+            $('#input-container').on('input', 'input[name="qty[]"]', function() {
+                if ($(this).val() < 0) {
+                    $(this).val(0);
+                }
+            });
+
 
             $('#input-container').on('click', '.remove-input', function() {
                 // $(this).parent().parent().remove();
@@ -147,7 +153,7 @@
             console.log(form);
             $.ajax({
                 type: 'POST',
-                url: "{{ route('data-uji-fungsi.store') }}",
+                url: "{{ route('template-uji-fungsi.store') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -181,7 +187,7 @@
                 }
             }],
             ajax: {
-                url: "{{ route('data-uji-fungsi.index') }}",
+                url: "{{ route('template-uji-fungsi.index') }}",
                 type: 'GET',
                 data: function(data) {
                     data.filter = $('#filter').val();

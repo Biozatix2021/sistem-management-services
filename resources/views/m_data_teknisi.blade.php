@@ -159,9 +159,11 @@
                 success: function(data) {
                     $('#tabelTeknisi').DataTable().ajax.reload();
                     $('#tambah-data-alat').modal('hide');
+                    toastr.success('Data berhasil disimpan');
                 },
                 error: function(data) {
                     console.log('Error:', data);
+                    toastr.error('Data gagal disimpan');
                 }
             });
         }
@@ -176,9 +178,11 @@
                     $('#id').val(data.id);
                     $('#inputNamaTeknisi').val(data.nama);
                     $('#inputNoTelp').val(data.no_hp);
+                    toastr.success('Data berhasil diperbaharui');
                 },
                 error: function(data) {
                     console.log('Error:', data);
+                    toastr.error('Data gagal diperbaharui');
                 }
             });
         }
@@ -190,9 +194,11 @@
                     type: "DELETE",
                     success: function(data) {
                         $('#tabelTeknisi').DataTable().ajax.reload();
+                        toastr.success('Data berhasil dihapus');
                     },
                     error: function(data) {
                         console.log('Error:', data);
+                        toastr.error('Data gagal dihapus');
                     }
                 });
             }

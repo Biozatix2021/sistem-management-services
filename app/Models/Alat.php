@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Alat extends Model
 {
     protected $table = 'alats';
-    protected $fillable = ['nama', 'type'];
+    protected $fillable = ['nama', 'merk', 'tipe', 'gambar'];
 
     public function sop_alat()
     {

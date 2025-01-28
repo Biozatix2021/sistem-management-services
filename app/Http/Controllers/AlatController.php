@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alat;
 use App\Models\sop_alat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AlatController extends Controller
@@ -16,9 +17,13 @@ class AlatController extends Controller
     {
         // return Alat::all();
         if (request()->ajax()) {
-            $data = Alat::all();
+            $data = Alat::where('is_deleted', 0);
             return datatables()->of($data)
                 ->addIndexColumn()
+                ->addColumn('gambar', function ($data) {
+                    $url = asset('storage/alat/' . $data->gambar);
+                    return '<img src="' . $url . '" border="0" width="40" class="img-rounded" align="center" />';
+                })
                 ->addColumn('action', function ($data) {
                     $button = '<center>
                                 <div class="btn-group" role="group" aria-label="Basic example">
@@ -27,7 +32,7 @@ class AlatController extends Controller
                                 </div></center>';
                     return $button;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['gambar', 'action'])
                 ->make(true);
         }
 
@@ -47,14 +52,20 @@ class AlatController extends Controller
      */
     public function store(Request $request)
     {
+
+        // dd($request->all());
         $rules = [
-            'nama'              => 'required',
-            'type'              => 'required',
+            'nama_alat'              => 'required',
+            'merk'              => 'required',
+            'tipe'              => 'required',
+            'gambar'            => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
 
         $text = [
             'nama.required' => 'Nama Alat Harus Diisi !',
-            'type.required' => 'Type Alat Harus Diisi !',
+            'merk.required' => 'Merk Alat Harus Diisi !',
+            'tipe.required' => 'Type Alat Harus Diisi !',
+            'gambar.required' => 'Anda belum memilih gambar !',
 
         ];
 
@@ -65,12 +76,22 @@ class AlatController extends Controller
             return response()->json(['success' => 0, 'text' => $validator->errors()->first()], 422);
         }
 
-        Alat::create([
-            'nama'          => $request->nama,
-            'type'          => $request->type,
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $filename = $file->getClientOriginalName();
+            $path = Storage::disk('public')->putFileAs('alat', $file, $filename);
+            $request->merge(['gambar' => $filename]);
+        }
 
-        ]);
 
+        if ($path) {
+            Alat::create([
+                'nama'          => $request->nama_alat,
+                'merk'          => $request->merk,
+                'tipe'          => $request->tipe,
+                'gambar'        => $filename,
+            ]);
+        }
         return response()->json(['status'   => true]);
     }
 
@@ -106,7 +127,9 @@ class AlatController extends Controller
     public function destroy(string $id)
     {
         $data = Alat::find($id);
-        $data->delete();
+        Storage::disk('public')->delete('alat/' . $data->gambar);
+        $data->is_deleted = 1;
+        $data->save();
         return response()->json(['status' => true]);
     }
 }

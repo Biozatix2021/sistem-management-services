@@ -20,8 +20,32 @@ return new class extends Migration
             $table->string('satuan', 50);
             $table->timestamps();
         });
-    }
 
+        schema::create('data_uji_fungsis', function (Blueprint $table) {
+            $table->id();
+            $table->string('no_seri', 50);
+            $table->string('no_order', 50);
+            $table->string('no_faktur', 50);
+            $table->date('tgl_faktur');
+            $table->date('tgl_terima');
+            $table->date('tgl_selesai');
+            $table->unsignedBigInteger('id_teknisi');
+            $table->foreign('id_teknisi')->references('id')->on('teknisis')->onDelete('cascade');
+            $table->string('status', 50);
+            $table->timestamps();
+        });
+
+        Schema::create('detail_uji_fungsis', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('data_uji_fungsi_id');
+            $table->foreign('data_uji_fungsi_id')->references('id')->on('data_uji_fungsis')->onDelete('cascade');
+            $table->string('item', 50);
+            $table->integer('qty');
+            $table->string('satuan', 50);
+            $table->integer('foto');
+            $table->timestamps();
+        });
+    }
     /**
      * Reverse the migrations.
      */

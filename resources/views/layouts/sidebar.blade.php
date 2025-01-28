@@ -41,14 +41,14 @@
                 <li class="{{ request()->is('alat') ? 'active' : '' }}"><a href="/alat"><i class="fa fa-circle-o"></i> Data Alat</a></li>
                 <li class="{{ request()->is('teknisi') ? 'active' : '' }}"><a href="/teknisi"><i class="fa fa-circle-o"></i> Data Teknisi</a></li>
                 <li class="{{ request()->is('rumah-sakit') ? 'active' : '' }}"><a href="/rumah-sakit"><i class="fa fa-circle-o"></i>Data Rumah Sakit</a></li>
-                <li class="{{ request()->is('template-uji-fungsi') ? 'active' : '' }}"><a href="template-uji-fungsi"><i class="fa fa-circle-o"></i> Template Uji
+                <li class="{{ request()->is('template-uji-fungsi') ? 'active' : '' }}"><a href="/template-uji-fungsi"><i class="fa fa-circle-o"></i> Template Uji
                         Fungsi</a>
                 </li>
                 <li class="{{ request()->is('sop-alat') ? 'active' : '' }}"><a href="/sop-alat"><i class="fa fa-circle-o"></i>
                         SOP Pemeriksaan Alat</a></li>
             </ul>
         </li>
-        <li class="treeview {{ in_array(request()->path(), ['instalasi-alat', 'uji-fungsi']) ? 'active' : '' }}">
+        <li class="treeview {{ in_array(request()->path(), ['instalasi-alat', 'data-uji-fungsi']) ? 'active' : '' }}">
             <a href="#">
                 <i class="fa fa-microchip" aria-hidden="true"></i>
                 <span>Alat</span>
@@ -58,7 +58,8 @@
             </a>
             <ul class="treeview-menu">
                 <li class="{{ request()->is('instalasi-alat') ? 'active' : '' }}">><a href="/instalasi-alat"><i class="fa fa-circle-o"></i>Instalasi Alat</a></li>
-                <li class="{{ request()->is('uji-fungsi') ? 'active' : '' }}"><a href="/uji-fungsi"><i class="fa fa-circle-o"></i>Uji Fungsi (QC Internal)</a></li>
+                <li class="{{ request()->is('data-uji-fungsi') ? 'active' : '' }}"><a href="/data-uji-fungsi"><i class="fa fa-circle-o"></i>Uji Fungsi (QC Internal)</a>
+                </li>
                 <li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
                 <li><a href="../UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
                 <li><a href="../UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>

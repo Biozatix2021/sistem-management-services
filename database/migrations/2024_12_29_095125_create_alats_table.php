@@ -16,14 +16,14 @@ return new class extends Migration
             $table->string('nama', 100);
             $table->string('merk', 100);
             $table->string('tipe', 100);
-            $table->string('foto', 100);
+            $table->string('gambar', 100);
             $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
 
         Schema::create('instalasi_alats', function (Blueprint $table) {
             $table->id();
-            $table->kode_instalasi('kode_instalasi', 100);
+            $table->string('kode_instalasi', 100);
             $table->string('no_seri', 100);
             $table->string('status_instalasi', 50);
             $table->string('keterangan', 100);

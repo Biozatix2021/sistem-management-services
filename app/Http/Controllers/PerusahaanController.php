@@ -75,7 +75,7 @@ class PerusahaanController extends Controller
             $data->logo = 'uploads/' . $fileName;
             $data->save();
 
-            return response()->json(['success' => 1, 'text' => 'Data berhasil disimpan'], 200);
+            return response()->json(['status'   => true]);
         }
     }
 

@@ -41,25 +41,41 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="form-tambah-alat" name="form-tambah-alat" class="form-horizontal">
+                            <form id="form-tambah-alat" name="form-tambah-alat" class="form-horizontal" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">
                                     <label for="inputNamaAlat" class="col-sm-2 col-form-label">Nama</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputNamaAlat">
+                                        <input type="text" class="form-control" id="inputNamaAlat" name="nama_alat">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputNamaAlat" class="col-sm-2 col-form-label">Merk</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="inputMerkAlat" name="merk">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputTipeAlat" class="col-sm-2 col-form-label">Type</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputTipeAlat">
+                                        <input type="text" class="form-control" id="inputTipeAlat" name="tipe">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" onchange="previewImage(event)">
+                                        <img id="preview" src="#" alt="Preview Image" style="display: none; max-width: 100px; margin-top: 10px;">
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" id="tombol-tambah-form" class="btn btn-primary btn-sm" onclick="save_data()">Simpan</button>
+                        <div class="modal-footer" style="display: flex; align-items: center; justify-content: flex-end;">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px">Cancel</button>
+                            <div id="loader" style="display: none;">
+                                <img src="{{ asset('img/spinner.gif') }}" style="width: 50px" alt="Loading..." />
+                            </div>
+                            <button type="button" id="tombol-simpan" class="btn btn-primary btn-sm" onclick="save_data()">Simpan</button>
                         </div>
                     </div>
                 </div>
@@ -70,7 +86,9 @@
                     <thead>
                         <tr>
                             <th width="10px">No</th>
+                            <th>#</th>
                             <th>Nama</th>
+                            <th>Merk</th>
                             <th>Type</th>
                             <th width="20px">Aksi</th>
                         </tr>
@@ -79,40 +97,9 @@
             </div>
 
         </div>
-        <!-- /.end box-body -->
-        <div class="modal fade" id="show-sop-alat" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Item Check</th>
-                                </tr>
-                            </thead>
-                            <tbody id="show-item-sop">
 
-                            </tbody>
-                        </table>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" id="tombol-tambah-form" class="btn btn-primary btn-sm" onclick="save_data()">Simpan</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- /.box-body -->
-        <div class="box-footer">
-            Footer
-        </div>
+
         <!-- /.box-footer-->
 
 
@@ -129,6 +116,16 @@
                 }
             });
         });
+
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('preview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
 
         table = $('#tabelAlat').DataTable({
             serverSide: true,
@@ -160,13 +157,22 @@
                     render: function(data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1
                     }
-                }, {
+                },
+                {
+                    data: 'gambar',
+                    name: 'gambar',
+                },
+                {
                     data: 'nama',
                     name: 'nama'
                 },
                 {
-                    data: 'type',
-                    name: 'type'
+                    data: 'merk',
+                    name: 'merk'
+                },
+                {
+                    data: 'tipe',
+                    name: 'tipe'
                 },
                 {
                     data: 'action',
@@ -178,22 +184,29 @@
         });
 
         function save_data() {
-            var nama = $('#inputNamaAlat').val();
-            var type = $('#inputTipeAlat').val();
+            var form = $('#form-tambah-alat')[0];
+            var formData = new FormData(form);
+
+            $('#loader').show();
+            $('#tombol-simpan').prop('disabled', true);
             $.ajax({
                 url: "{{ route('alat.store') }}",
                 type: "POST",
-                data: {
-                    nama: nama,
-                    type: type
-                },
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function(data) {
                     toastr.success('Data Berhasil Disimpan');
                     $('#tabelAlat').DataTable().ajax.reload();
                     $('#tambah-data-alat').modal('hide');
+                    $('#loader').hide();
+                    $('#tombol-simpan').prop('disabled', false);
                 },
                 error: function(data) {
+                    toastr.error(data.responseJSON.text);
                     console.log('Error:', data);
+                    $('#loader').hide();
+                    $('#tombol-simpan').prop('disabled', false);
                 }
             });
         }

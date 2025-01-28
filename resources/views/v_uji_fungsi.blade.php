@@ -30,9 +30,106 @@
 
         <!-- /.Body start -->
         <div class="box-body">
+            <div class="data-tables">
+                <table id="tabel-uji-fungsi" class="table table-bordered table-hover" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="10px">No</th>
+                            <th>SN</th>
+                            <th>No Order</th>
+                            <th>No Faktur</th>
+                            <th>Tgl Faktur</th>
+                            <th>Tgl Terima</th>
+                            <th>Tgl Selesai</th>
+                            <th>Status</th>
+                            <th width="20px">Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="modal fade" id="tambah-data-qc" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Uji Fungsi</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 
 @section('scripts')
+    <script>
+        var table;
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+
+        table = $('#tabel-uji-fungsi').DataTable({
+            processing: true,
+            serverSide: true,
+            dom: 'Bfrtip',
+            buttons: [{
+                text: '<ion-icon name="add-outline"></ion-icon> Tambah Data',
+                className: 'btn btn-primary btn-sm',
+                action: function(e, dt, node, config) {
+                    // $('#form-tambah-alat')[0].reset();
+                    window.location.href = "{{ route('data-uji-fungsi.create') }}";
+                }
+            }],
+            ajax: "{{ route('data-uji-fungsi.index') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'no_seri',
+                    name: 'no_seri'
+                },
+                {
+                    data: 'no_order',
+                    name: 'no_order'
+                },
+                {
+                    data: 'no_faktur',
+                    name: 'no_faktur'
+                },
+                {
+                    data: 'tgl_faktur',
+                    name: 'tgl_faktur'
+                },
+                {
+                    data: 'tgl_terima',
+                    name: 'tgl_terima'
+                },
+                {
+                    data: 'tgl_selesai',
+                    name: 'tgl_selesai'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
+        });
+    </script>
 @endsection
