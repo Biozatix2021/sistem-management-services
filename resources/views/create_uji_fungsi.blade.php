@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="row">
-        <form id="form-tambah-uji-fungsi" name="form-tambah-uji-fungsi">
+        <form id="form-tambah-uji-fungsi" name="form-tambah-uji-fungsi" method="POST" action="{{ route('data-uji-fungsi.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="col-md-9">
@@ -149,7 +149,7 @@
                             </select>
                         </div>
                         <div class="form-group text-center">
-                            <button type="button" id="btn-simpan" class="btn btn-block btn-primary mt-10">Simpan</button>
+                            <button type="submit" id="btn-simpan" class="btn btn-block btn-primary mt-10">Simpan</button>
                         </div>
                     </div>
                 </div>
@@ -200,15 +200,15 @@
                         $('#tbody').append(`
                             <tr>
                                 <td>
-                                    <input type="hidden" class="form-control" name="item[]" value="${item.item}">
+                                    <input type="hidden" class="form-control" name="item_check[]" value="${item.item}">
                                     <label for="item" class="col-sm-2 col-form-label">${item.item}</label>
                                 </td>
                                 <td>
                                     <label for="qty" class="col-sm-2 col-form-label">${item.qty + item.satuan}</label>
-                                    <input type="hidden" class="form-control" name="qty[]" value="${item.qty}">
+                                    <input type="hidden" class="form-control" name="qty_item[]" value="${item.qty}">
                                 </td>
                                 <td>
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" value="" name="checkbox" id="defaultCheck1">
                                 </td>
                                 <td id="foto[${item.id}]">
                                 </td>
@@ -226,7 +226,7 @@
         $(document).on('change', '.form-check-input', function() {
             var row = $(this).closest('tr');
             var isChecked = $(this).is(':checked');
-            var itemId = row.find('input[name="item[]"]').val();
+            var itemId = row.find('input[name="item_check[]"]').val();
 
             if (isChecked) {
                 console.log('itemId', itemId);

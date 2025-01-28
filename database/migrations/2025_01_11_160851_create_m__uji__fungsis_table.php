@@ -39,7 +39,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('data_uji_fungsi_id');
             $table->foreign('data_uji_fungsi_id')->references('id')->on('data_uji_fungsis')->onDelete('cascade');
-            $table->string('item', 50);
+            $table->string('item', 100);
             $table->integer('qty');
             $table->string('satuan', 50);
             $table->integer('foto');
