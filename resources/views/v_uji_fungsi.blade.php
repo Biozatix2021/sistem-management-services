@@ -30,6 +30,24 @@
 
         <!-- /.Body start -->
         <div class="box-body">
+
+            <div class="text-center">
+                <div class="input-group" style="width: 50%;margin: 0 auto; margin-bottom: 10px;">
+                    {{-- make select option --}}
+                    <select id="filter" class="form-control" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;">
+                        <option value="">Pilih Alat</option>
+                        @foreach ($alats as $alat)
+                            <option value="{{ $alat->id }}">{{ $alat->merk }} {{ $alat->tipe }}</option>
+                        @endforeach
+                    </select>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-secondary" style="background-color: #3c8dbc; color:white" onclick="filter()">Terapkan</button>
+                    </div>
+                    <!-- /btn-group -->
+                </div>
+            </div>
+
+
             <div class="data-tables">
                 <table id="tabel-uji-fungsi" class="table table-bordered table-hover" width="100%">
                     <thead>
@@ -48,17 +66,112 @@
                 </table>
             </div>
 
-            <div class="modal fade" id="tambah-data-qc" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+            <div class="modal fade" id="detail-data-uji-fungsi" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Uji Fungsi</h5>
+                            <button type="button" class="btn btn-secondary" onclick="downloadData()"><i class="fa fa-download" aria-hidden="true"></i>
+                                Download</button>
+                            <button type="button" class="btn btn-secondary" onclick="printData()"> <i class="fa fa-print" aria-hidden="true"></i>
+                                Print</button>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
+                            <div id="loader"
+                                style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; text-align: center;">
+                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(37, 33, 33, 0.082);"></div>
+                                <img src="{{ asset('img/spinner.gif') }}" style="width: 90px" alt="Loading..." />
+                            </div>
 
+
+                            {{-- Data will be displayed here --}}
+                            <p>hallo</p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <!-- Profile Image -->
+                                    <div class="box box-primary">
+                                        <div class="box-body box-profile">
+                                            <img class="profile-user-img img-responsive img-circle img-alat" src="" alt="User profile picture">
+
+                                            <h3 class="profile-username text-center nama-alat"></h3>
+
+                                            <p class="text-muted text-center"></p>
+
+                                            <ul class="list-group list-group-unbordered">
+                                                <li class="list-group-item">
+                                                    <b>S/N</b> <a class="pull-right sn"></a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>No order</b> <a class="pull-right no-order"></a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>No Faktur</b> <a class="pull-right no-faktur"></a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Tgl Faktur</b> <a class="pull-right tgl-faktur"></a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Tgl Terima</b> <a class="pull-right tgl-terima"></a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Tgl Selesai</b> <a class="pull-right tgl-selesai"></a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Status</b> <a class="pull-right status"><span class="label pull-center bg-green">Qualified</span></a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Teknisi</b> <a class="pull-right teknisi"></a>
+                                                </li>
+                                            </ul>
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <i class="fa fa-text-width"></i>
+
+                                                    <h3 class="box-title">Keterangan</h3>
+                                                </div>
+                                                <!-- /.box-header -->
+                                                <div class="box-body">
+                                                    <blockquote class="keterangan">
+                                                        {{-- berisi keterangan --}}
+                                                    </blockquote>
+                                                </div>
+                                                <!-- /.box-body -->
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Detail Data Uji Fungsi</h3>
+                                        </div>
+                                        <div class="box-body" style="overflow-x: auto;">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Item Check</th>
+                                                        <th>Qty</th>
+                                                        <th>Check / Not</th>
+                                                        <th>Dokumentasi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                         </div>
                     </div>
                 </div>
@@ -78,6 +191,55 @@
             });
         });
 
+
+        function showData(id) {
+            $('#loader').show();
+            $.ajax({
+                url: "{{ url('data-uji-fungsi') }}" + '/' + id,
+                type: "GET",
+                success: function(data) {
+                    $('#loader').hide();
+                    $('.img-alat').attr('src', '/storage/alat/' + data.alat.gambar);
+                    $('.nama-alat').text(data.alat.merk + ' ' + data.alat.tipe);
+                    $('.text-muted.text-center').text(data.alat.nama);
+                    $('.list-group-item').eq(0).find('.sn').text(data.no_seri);
+                    $('.list-group-item').eq(1).find('.no-order').text(data.no_order);
+                    $('.list-group-item').eq(2).find('.no-faktur').text(data.no_faktur);
+                    $('.list-group-item').eq(3).find('.tgl-faktur').text(data.tgl_faktur);
+                    $('.list-group-item').eq(4).find('.tgl-terima').text(data.tgl_terima);
+                    $('.list-group-item').eq(5).find('.tgl-selesai').text(data.tgl_selesai);
+                    $('.list-group-item').eq(6).find('.status').html(data.status == 1 ? '<span class="label pull-center bg-green">Qualified</span>' :
+                        '<span class="badge badge-danger">Not Qualified</span>');
+                    $('.list-group-item').eq(7).find('.teknisi').text(data.teknisi);
+                    $('.keterangan').text(data.keterangan);
+
+                    var table = $('#detail-data-uji-fungsi').find('table tbody');
+                    table.empty();
+                    $.each(data.detail_uji_fungsi, function(index, value) {
+                        var row = '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + value.item + '</td>' +
+                            '<td>' + value.qty + '' + value.satuan + '</td>' +
+                            '<td>' + (value.check == 1 ? 'Check' : 'Not') + '</td>' +
+                            '<td><img src="/storage/foto_dokumentasiQC/' + value.foto +
+                            '" alt="dokumentasi" class="img-thumbnail" style="width: 100px;"></td>' +
+                            '</tr>';
+                        table.append(row);
+                    });
+                    $('#detail-data-uji-fungsi').modal('show');
+                },
+                error: function() {
+                    alert('Oops! Something error!');
+                }
+            });
+        }
+
+        function filter() {
+            var filter = $('#filter').val();
+            console.log(filter);
+            table.draw();
+        }
+
         table = $('#tabel-uji-fungsi').DataTable({
             processing: true,
             serverSide: true,
@@ -90,12 +252,17 @@
                     window.location.href = "{{ route('data-uji-fungsi.create') }}";
                 }
             }],
-            ajax: "{{ route('data-uji-fungsi.index') }}",
+            ajax: {
+                url: "{{ route('data-uji-fungsi.index') }}",
+                type: 'GET',
+                data: function(data) {
+                    data.filter = $('#filter').val();
+                }
+            },
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
-                },
-                {
+                }, {
                     data: 'no_seri',
                     name: 'no_seri'
                 },
@@ -121,7 +288,16 @@
                 },
                 {
                     data: 'status',
-                    name: 'status'
+                    name: 'status',
+                    render: function(data, type, row) {
+                        if (data == 1) {
+                            return '<span class="label pull-center bg-green">Qualified</span>';
+                        } else if (data == 0) {
+                            return '<span class="badge badge-danger">Not Qualified</span>';
+                        } else {
+                            return data;
+                        }
+                    }
                 },
                 {
                     data: 'action',

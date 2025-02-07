@@ -34,7 +34,7 @@
                     <select id="filter" class="form-control" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;">
                         <option value="">Pilih Alat</option>
                         @foreach ($alats as $alat)
-                            <option value="{{ $alat->id }}">{{ $alat->nama }} {{ $alat->type }}</option>
+                            <option value="{{ $alat->id }}">{{ $alat->merk }} {{ $alat->tipe }}</option>
                         @endforeach
                     </select>
                     <div class="input-group-btn">
@@ -73,7 +73,7 @@
                                         <select class="form-control me-2" name="alat_id" id="alat_id" style="margin-bottom: 5px">
                                             <option value="">Pilih Alat</option>
                                             @foreach ($alats as $alat)
-                                                <option value="{{ $alat->id }}">{{ $alat->nama }} {{ $alat->type }}</option>
+                                                <option value="{{ $alat->id }}">{{ $alat->merk }} {{ $alat->tipe }}</option>
                                             @endforeach
                                         </select>
                                         <hr>
@@ -177,6 +177,10 @@
         table = $('#tabel-uji-fungsi').DataTable({
             processing: true,
             serverSide: true,
+            responsive: true,
+            lengthChange: true,
+            autoWidth: false,
+            pageLength: '100',
             dom: 'Bfrtip',
             buttons: [{
                 text: '<ion-icon name="add-outline"></ion-icon> Tambah Data',

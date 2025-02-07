@@ -15,41 +15,43 @@
 @endsection
 
 @section('content')
-    <div class="box">
-        {{-- Header start --}}
-        <div class="box-header with-border">
-            <h3 class="box-title"></h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                    <i class="fa fa-minus"></i></button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                    <i class="fa fa-times"></i></button>
-            </div>
-        </div>
-        {{-- Header end --}}
-
-        <div class="box-body">
-            <div class="text-center">
-                <div class="input-group" style="width: 50%; margin: 0 auto;">
-                    {{-- make select option --}}
-                    <select id="alat_id" class="form-control" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;">
-                        <option value="" selected>Pilih Alat</option>
-                        @foreach ($alats as $alat)
-                            <option value="{{ $alat->id }}">{{ $alat->nama }} {{ $alat->type }}</option>
-                        @endforeach
-                    </select>
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-secondary" style="background-color: #3c8dbc; color:white" onclick="filter()">Terapkan</button>
-                    </div>
-                    <!-- /btn-group -->
+    <form id="form-tambah-uji-fungsi" name="form-tambah-uji-fungsi">
+        @csrf
+        <div class="box">
+            {{-- Header start --}}
+            <div class="box-header with-border">
+                <h3 class="box-title"></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <i class="fa fa-minus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i></button>
                 </div>
             </div>
-            <hr>
+            {{-- Header end --}}
+
+
+            <div class="box-body">
+                <div class="text-center">
+                    <div class="input-group" style="width: 50%;margin: 0 auto; margin-bottom: 10px;">
+                        {{-- make select option --}}
+                        <select id="alat_id" name="alat_id" class="form-control" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;">
+                            <option value="" selected>Pilih Alat</option>
+                            @foreach ($alats as $alat)
+                                <option value="{{ $alat->id }}">{{ $alat->merk }} {{ $alat->nama }} {{ $alat->tipe }}</option>
+                            @endforeach
+                        </select>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-secondary" style="background-color: #3c8dbc; color:white" onclick="filter()">Terapkan</button>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                </div>
+                <hr>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <form id="form-tambah-uji-fungsi" name="form-tambah-uji-fungsi" method="POST" action="{{ route('data-uji-fungsi.store') }}" enctype="multipart/form-data">
-            @csrf
+        <div class="row">
+
 
             <div class="col-md-9">
                 <div class="box box-primary">
@@ -63,9 +65,10 @@
                         </div>
                     </div>
                     <div class="box-body" style="min-height: 300px">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Item</th>
                                     <th width="20px">Qty</th>
                                     <th width="15px">Check</th>
@@ -103,14 +106,15 @@
                         <div class="form-group">
                             <label for="nama">Nomor Seri</label>
                             <input type="text" class="form-control" id="inputNoSeri" name="no_seri" placeholder="Masukkan No Seri Alat">
+                            <span class="help-block"></span>
                         </div>
                         <div class="form-group">
                             <label for="nama">No Order</label>
-                            <input type="text" class="form-control" id="inputLokasi" name="lokasi" placeholder="Masukkan Lokasi Alat">
+                            <input type="text" class="form-control" id="inputLokasi" name="no_order" placeholder="Masukkan Lokasi Alat">
                         </div>
                         <div class="form-group">
                             <label for="nama">No Faktur</label>
-                            <input type="text" class="form-control" id="inputKondisi" name="kondisi" placeholder="Masukkan Kondisi Alat">
+                            <input type="text" class="form-control" id="inputKondisi" name="no_faktur" placeholder="Masukkan Kondisi Alat">
                         </div>
                         <div class="form-group">
                             <label for="nama">Tgl Faktur</label>
@@ -148,18 +152,28 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="nama">Keterangan</label>
+                            <textarea name="keterangan" id="keterangan" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                                aria-valuemax="100" style="width: 75%; height:3px"></div>
+                        </div>
                         <div class="form-group text-center">
-                            <button type="submit" id="btn-simpan" class="btn btn-block btn-primary mt-10">Simpan</button>
+                            <button type="button" onclick="save_data()" id="btn-simpan" class="btn btn-block btn-primary" style="margin-top: 10px;">Simpan</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('scripts')
     <script>
+        var uploadFile = 0;
+        var itemIndex = 0;
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -194,20 +208,21 @@
                     alat_id: alatId
                 },
                 success: function(response) {
-                    console.log(response);
                     $('#loader').hide();
                     $.each(response.templates, function(index, item) {
                         $('#tbody').append(`
                             <tr>
+                                <td>${index + 1}</td>
                                 <td>
                                     <input type="hidden" class="form-control" name="item_check[]" value="${item.item}">
-                                    <label for="item" class="col-sm-2 col-form-label">${item.item}</label>
+                                    <label for="item" class="col-form-label">${item.item}</label>
                                 </td>
                                 <td>
-                                    <label for="qty" class="col-sm-2 col-form-label">${item.qty + item.satuan}</label>
+                                    <label for="qty" class="col-form-label">${item.qty + item.satuan}</label>
                                     <input type="hidden" class="form-control" name="qty_item[]" value="${item.qty}">
+                                    <input type="hidden" class="form-control" name="satuan_item[]" value="${item.satuan}">
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <input class="form-check-input" type="checkbox" value="" name="checkbox" id="defaultCheck1">
                                 </td>
                                 <td id="foto[${item.id}]">
@@ -226,13 +241,17 @@
         $(document).on('change', '.form-check-input', function() {
             var row = $(this).closest('tr');
             var isChecked = $(this).is(':checked');
-            var itemId = row.find('input[name="item_check[]"]').val();
+            var itemId = itemIndex++;
 
             if (isChecked) {
                 console.log('itemId', itemId);
                 row.find('td:last').append(`
                 <input type="file" name="foto[${itemId}]" accept="image/*" onchange="previewImage(event, '${itemId}')">
+                <input type="hidden" name="foto_item[]" id="foto_item[${itemId}]">
                 <img id="preview-${itemId}" src="#" alt="Preview" style="display:none; width: 100px; height: auto; margin-top: 10px;">
+                <div class="progress" style="display:none; margin-top: 10px;">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             `);
             } else {
                 row.find('td:last').empty();
@@ -242,17 +261,72 @@
         function previewImage(event, itemId) {
             var element = 'preview-' + itemId;
             var reader = new FileReader();
-            console.log(itemId);
+
             reader.onload = function() {
                 var output = document.getElementById(element);
                 output.src = reader.result;
                 output.style.display = 'block';
             }
             reader.readAsDataURL(event.target.files[0]);
+
+            var formData = new FormData();
+            formData.append('foto', event.target.files[0]);
+            formData.append('item_id', itemId);
+
+            $.ajax({
+                url: "{{ route('upload-foto') }}",
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    // set id foto_item value
+                    $('#foto_item\\[' + itemId + '\\]').val(response.foto);
+                    // console.log(response);
+                    uploadFile++;
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        $('#inputNoSeri').on('input', function() {
+            clearTimeout($(this).data('timer'));
+            var wait = setTimeout(validateNoSeri, 500); // 500ms delay
+            $(this).data('timer', wait);
+        });
+
+        function validateNoSeri() {
+            var noSeri = $('#inputNoSeri').val();
+            if (noSeri.length > 0) {
+                $.ajax({
+                    url: "{{ route('validate-no-seri') }}",
+                    type: 'GET',
+                    data: {
+                        no_seri: noSeri
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#inputNoSeri').removeClass('is-invalid').addClass('is-valid');
+                            $('#inputNoSeri').next('.help-block').text('Nomor seri valid.');
+                        } else {
+                            $('#inputNoSeri').removeClass('is-valid').addClass('is-invalid');
+                            $('#inputNoSeri').next('.help-block').text('Nomor seri sudah tersedia.');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            } else {
+                $('#inputNoSeri').removeClass('is-valid is-invalid');
+                $('#inputNoSeri').next('.help-block').text('');
+            }
         }
 
 
-        $('#btn-simpan').click(function() {
+        function save_data() {
             var isValid = true;
             var tbodyContent = $('#tbody').html().trim();
 
@@ -273,8 +347,33 @@
                 return false; // Prevent form submission
             }
 
-            // If all checkboxes are checked and tbody is not empty, proceed with form submission
-            $('#form-tambah-uji-fungsi').submit();
-        });
+            // count $('#foto_item') length
+            var fotoItemLength = $('input[name^="foto_item"]').length;
+            if (fotoItemLength !== uploadFile) {
+                alert('Please wait until all images are uploaded.');
+                return false; // Prevent form submission
+            }
+
+            // define form serialize
+            var formData = $('#form-tambah-uji-fungsi').serialize();
+
+            $.ajax({
+                url: "{{ route('data-uji-fungsi.store') }}",
+                type: "POST",
+                data: formData,
+                dataType: "JSON",
+                success: function(response) {
+                    console.log(response);
+                    if (response.success) {
+                        alert('Data berhasil disimpan.');
+                        window.location.href = "{{ route('data-uji-fungsi.index') }}";
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+
+                }
+            });
+        }
     </script>
 @endsection

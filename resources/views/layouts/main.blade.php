@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.css" />
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}">
+
     <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}">
@@ -58,6 +59,48 @@
         #map {
             height: 400px;
             /* The height is 400 pixels */
+        }
+
+        .form-control.is-valid {
+            border-color: #28a745;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url('data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8"%3e%3cpath fill="%2328a745" d="M6.564 1.564a.5.5 0 0 1 0 .707l-3.5 3.5a.5.5 0 0 1-.707 0l-1.5-1.5a.5.5 0 1 1 .707-.707L3 4.793 5.857 1.936a.5.5 0 0 1 .707 0z"/%3e%3c/svg%3e');
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url('data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8"%3e%3cpath fill="%23dc3545" d="M4.146 4.854a.5.5 0 0 1-.708-.708L4.293 4 3.146 2.854a.5.5 0 1 1 .708-.708L4 3.293l1.146-1.147a.5.5 0 0 1 .708.708L4.707 4l1.147 1.146a.5.5 0 0 1-.708.708L4 4.707l-1.146 1.147z"/%3e%3c/svg%3e');
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+
+        .form-control.is-valid~.help-block {
+            color: #28a745;
+        }
+
+        .form-control.is-invalid~.help-block {
+            color: #dc3545;
+        }
+
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+
+        .image-preview {
+            filter: brightness(0.5);
+            transition: filter 0.5s ease-in-out;
+        }
+
+        @media (min-width: 768px) {
+            .modal-xl {
+                width: 90%;
+                max-width: 1200px;
+            }
         }
     </style>
 </head>
@@ -280,6 +323,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
 
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/leaflet-geosearch@3.1.0/dist/geosearch.umd.js"></script>
 
     {{-- toastr --}}

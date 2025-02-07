@@ -23,15 +23,19 @@ return new class extends Migration
 
         schema::create('data_uji_fungsis', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('alat_id');
+            $table->foreign('alat_id')->references('id')->on('alats')->onDelete('cascade');
             $table->string('no_seri', 50);
             $table->string('no_order', 50);
             $table->string('no_faktur', 50);
             $table->date('tgl_faktur');
             $table->date('tgl_terima');
             $table->date('tgl_selesai');
+            $table->text('keterangan');
             $table->unsignedBigInteger('id_teknisi');
             $table->foreign('id_teknisi')->references('id')->on('teknisis')->onDelete('cascade');
             $table->string('status', 50);
+            $table->boolean('is_deleted');
             $table->timestamps();
         });
 
@@ -42,7 +46,8 @@ return new class extends Migration
             $table->string('item', 100);
             $table->integer('qty');
             $table->string('satuan', 50);
-            $table->integer('foto');
+            $table->boolean('status');
+            $table->string('foto');
             $table->timestamps();
         });
     }
@@ -52,5 +57,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('m_uji_fungsis');
+        Schema::dropIfExists('data_uji_fungsis');
+        Schema::dropIfExists('detail_uji_fungsis');
     }
 };
