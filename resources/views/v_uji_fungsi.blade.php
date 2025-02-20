@@ -32,7 +32,7 @@
         <div class="box-body">
 
             <div class="text-center">
-                <div class="input-group" style="width: 50%;margin: 0 auto; margin-bottom: 10px;">
+                <div class="input-group" style="width: 100%; max-width: 50%; margin: 0 auto; margin-bottom: 10px;">
                     {{-- make select option --}}
                     <select id="filter" class="form-control" style="border-top-left-radius: 7px; border-bottom-left-radius: 7px;">
                         <option value="">Pilih Alat</option>
@@ -67,27 +67,22 @@
             </div>
 
             <div class="modal fade" id="detail-data-uji-fungsi" data-backdrop="static" data-keyboard="false">
-                <div class="modal-dialog modal-xl">
+                <div class="modal-dialog modal-dialog-scrollable modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="btn btn-secondary" onclick="downloadData()"><i class="fa fa-download" aria-hidden="true"></i>
-                                Download</button>
-                            <button type="button" class="btn btn-secondary" onclick="printData()"> <i class="fa fa-print" aria-hidden="true"></i>
-                                Print</button>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div id="loader"
-                                style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; text-align: center;">
+                                style="display: none; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; text-align: center;">
                                 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(37, 33, 33, 0.082);"></div>
                                 <img src="{{ asset('img/spinner.gif') }}" style="width: 90px" alt="Loading..." />
                             </div>
 
 
                             {{-- Data will be displayed here --}}
-                            <p>hallo</p>
                             <div class="row">
                                 <div class="col-md-3">
                                     <!-- Profile Image -->
@@ -116,7 +111,8 @@
                                                     <b>Tgl Terima</b> <a class="pull-right tgl-terima"></a>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <b>Tgl Selesai</b> <a class="pull-right tgl-selesai"></a>
+                                                    <b>Tgl Selesai</b> <a class="pull-right tgl-selesai" data-toggle="tooltip" data-placement="right"
+                                                        title="Tanggal selesai dilakukan uji fungsi"></a>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <b>Status</b> <a class="pull-right status"><span class="label pull-center bg-green">Qualified</span></a>
@@ -139,6 +135,10 @@
                                                 </div>
                                                 <!-- /.box-body -->
                                             </div>
+                                            <button type="button" class="btn btn-default" onclick="downloadData()"><i class="fa fa-download" aria-hidden="true"></i>
+                                                Download</button>
+                                            <button type="button" class="btn btn-default" onclick="printData()"> <i class="fa fa-print" aria-hidden="true"></i>
+                                                Print</button>
                                         </div>
                                         <!-- /.box-body -->
                                     </div>
@@ -150,20 +150,22 @@
                                             <h3 class="box-title">Detail Data Uji Fungsi</h3>
                                         </div>
                                         <div class="box-body" style="overflow-x: auto;">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Item Check</th>
-                                                        <th>Qty</th>
-                                                        <th>Check / Not</th>
-                                                        <th>Dokumentasi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                                            <div class="data-tables">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Item Check</th>
+                                                            <th>Qty</th>
+                                                            <th>Check / Not</th>
+                                                            <th>Dokumentasi</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
-                                                </tbody>
-                                            </table>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -171,7 +173,7 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
                         </div>
                     </div>
                 </div>
@@ -198,7 +200,7 @@
                 url: "{{ url('data-uji-fungsi') }}" + '/' + id,
                 type: "GET",
                 success: function(data) {
-                    $('#loader').hide();
+                    $('#detail-data-uji-fungsi').modal('show');
                     $('.img-alat').attr('src', '/storage/alat/' + data.alat.gambar);
                     $('.nama-alat').text(data.alat.merk + ' ' + data.alat.tipe);
                     $('.text-muted.text-center').text(data.alat.nama);
@@ -210,7 +212,7 @@
                     $('.list-group-item').eq(5).find('.tgl-selesai').text(data.tgl_selesai);
                     $('.list-group-item').eq(6).find('.status').html(data.status == 1 ? '<span class="label pull-center bg-green">Qualified</span>' :
                         '<span class="badge badge-danger">Not Qualified</span>');
-                    $('.list-group-item').eq(7).find('.teknisi').text(data.teknisi);
+                    $('.list-group-item').eq(7).find('.teknisi').text(data.teknisi.nama);
                     $('.keterangan').text(data.keterangan);
 
                     var table = $('#detail-data-uji-fungsi').find('table tbody');
@@ -226,7 +228,8 @@
                             '</tr>';
                         table.append(row);
                     });
-                    $('#detail-data-uji-fungsi').modal('show');
+                    $('#loader').hide();
+
                 },
                 error: function() {
                     alert('Oops! Something error!');
@@ -243,6 +246,7 @@
         table = $('#tabel-uji-fungsi').DataTable({
             processing: true,
             serverSide: true,
+            responsive: true,
             dom: 'Bfrtip',
             buttons: [{
                 text: '<ion-icon name="add-outline"></ion-icon> Tambah Data',

@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('keterangan', 100);
             $table->string('foto', 100);
             $table->date('tanggal_instalasi');
+            $table->date('tanggal_kalibrasi');
             $table->unsignedBigInteger('alat_id');
             $table->foreign('alat_id')->references('id')->on('alats');
             $table->unsignedBigInteger('rumah_sakit_id');
@@ -50,5 +51,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('alats');
+        Schema::dropIfExists('instalasi_alats');
     }
 };

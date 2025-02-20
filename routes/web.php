@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlatController;
 use App\Http\Controllers\DataUjiFungsiController;
+use App\Http\Controllers\GaransiController;
 use App\Http\Controllers\InstalasiAlatController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\TeknisiController;
@@ -17,6 +18,7 @@ Route::get('/', function () {
 Route::resource('alat', AlatController::class)->names('alat');
 Route::resource('teknisi', TeknisiController::class)->names('teknisi');
 Route::resource('rumah-sakit', RumahSakitController::class)->names('rumah-sakit');
+Route::resource('data-garansi', GaransiController::class)->names('data-garansi');
 Route::resource('sop-alat', SopAlatController::class)->names('sop-alat');
 Route::resource('data-uji-fungsi', DataUjiFungsiController::class)->names('data-uji-fungsi');
 Route::get('form-uji-fungsi', [DataUjiFungsiController::class, 'form_qc'])->name('form-qc');

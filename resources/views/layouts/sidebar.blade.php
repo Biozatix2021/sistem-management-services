@@ -28,7 +28,8 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             </a>
         </li>
-        <li class="treeview {{ in_array(request()->path(), ['alat', 'teknisi', 'rumah-sakit', 'sop-alat', 'template-uji-fungsi', 'data-perusahaan']) ? 'active' : '' }}">
+        <li
+            class="treeview {{ in_array(request()->path(), ['alat', 'teknisi', 'rumah-sakit', 'sop-alat', 'template-uji-fungsi', 'data-perusahaan', 'data-garansi']) ? 'active' : '' }}">
             <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Master Data</span>
@@ -43,6 +44,8 @@
                 <li class="{{ request()->is('rumah-sakit') ? 'active' : '' }}"><a href="/rumah-sakit"><i class="fa fa-circle-o"></i>Data Rumah Sakit</a></li>
                 <li class="{{ request()->is('template-uji-fungsi') ? 'active' : '' }}"><a href="/template-uji-fungsi"><i class="fa fa-circle-o"></i> Template Uji
                         Fungsi</a>
+                </li>
+                <li class="{{ request()->is('data-garansi') ? 'active' : '' }}"><a href="/data-garansi"><i class="fa fa-circle-o"></i> Data Garansi</a>
                 </li>
                 <li class="{{ request()->is('sop-alat') ? 'active' : '' }}"><a href="/sop-alat"><i class="fa fa-circle-o"></i>
                         SOP Pemeriksaan Alat</a></li>
