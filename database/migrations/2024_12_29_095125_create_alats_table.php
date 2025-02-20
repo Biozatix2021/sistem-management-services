@@ -32,6 +32,8 @@ return new class extends Migration
             $table->date('tanggal_kalibrasi');
             $table->unsignedBigInteger('alat_id');
             $table->foreign('alat_id')->references('id')->on('alats');
+            $table->unsignedBigInteger('perusahaan_id');
+            $table->foreign('perusahaan_id')->references('id')->on('perusahaans');
             $table->unsignedBigInteger('rumah_sakit_id');
             $table->foreign('rumah_sakit_id')->references('id')->on('rumah_sakits');
             $table->unsignedBigInteger('teknisi_id');

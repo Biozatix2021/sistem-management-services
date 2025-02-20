@@ -31,10 +31,85 @@
 
         <!-- /.Body start -->
         <div class="box-body">
-
+            <div class="data-tables">
+                <table id="tabelInstalasi" class="table table-bordered table-hover" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="10px">No</th>
+                            <th>SN</th>
+                            <th>Nama Alat</th>
+                            <th>Status <br> Instalasi</th>
+                            <th>Teknisi</th>
+                            <th>Lokasi</th>
+                            <th>Instansi</th>
+                            <th width="20px">Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
 
 @section('scripts')
+    <script>
+        var table;
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+
+        table = $('#tabelInstalasi').DataTable({
+            processing: true,
+            serverSide: true,
+            dom: 'Bfrtip',
+            buttons: [{
+                text: '<ion-icon name="add-outline"></ion-icon> Tambah Data',
+                className: 'btn btn-primary btn-sm',
+                action: function(e, dt, node, config) {
+                    // $('#form-tambah-alat')[0].reset();
+                    window.location.href = "{{ route('instalasi-alat.create') }}";
+                }
+            }],
+            ajax: "{{ route('perusahaan') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'sn',
+                    name: 'sn'
+                },
+                {
+                    data: 'nama_alat',
+                    name: 'nama_alat'
+                },
+                {
+                    data: 'status_instalasi',
+                    name: 'status_instalasi'
+                },
+                {
+                    data: 'teknisi',
+                    name: 'teknisi'
+                },
+                {
+                    data: 'lokasi',
+                    name: 'lokasi'
+                },
+                {
+                    data: 'instansi',
+                    name: 'instansi'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+    </script>
 @endsection

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Instalasi_Alat;
+use App\Models\Perusahaan;
+use App\Models\rumah_sakit;
 use Illuminate\Http\Request;
 
 class InstalasiAlatController extends Controller
@@ -11,6 +14,9 @@ class InstalasiAlatController extends Controller
      */
     public function index()
     {
+        $data = Instalasi_Alat::with('alat', 'perusahaan', 'rumah_sakit', 'teknisi', 'user')->get();
+
+        // return $data;
         return view('v_instalasi_alat');
     }
 
@@ -19,7 +25,12 @@ class InstalasiAlatController extends Controller
      */
     public function create()
     {
-        //
+        $rumah_sakit = rumah_sakit::all();
+        $perusahaan = Perusahaan::all();
+        return view('create_instalasi_alat', [
+            'rumah_sakits' => $rumah_sakit,
+            'perusahaans' => $perusahaan
+        ]);
     }
 
     /**
