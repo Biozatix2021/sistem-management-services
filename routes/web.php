@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\AlatController;
 use App\Http\Controllers\DataUjiFungsiController;
 use App\Http\Controllers\GaransiController;
@@ -10,6 +11,14 @@ use App\Http\Controllers\TeknisiController;
 use App\Http\Controllers\RumahSakitController;
 use App\Http\Controllers\SopAlatController;
 use App\Http\Controllers\TemplateUjiFungsiController;
+
+
+
+Route::get('cek-auth', [AuthController::class, 'authenticate'])->name('cek-auth');
+Route::post('logout-auth', [AuthController::class, 'logout'])->name('logout');
+
+
+// Route::group(['middleware' => ['auth']], function () {
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,3 +39,4 @@ Route::resource('instalasi-alat', InstalasiAlatController::class)->names('instal
 Route::get('data-perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
 Route::post('perusahaan/store', [PerusahaanController::class, 'store'])->name('perusahaan.store');
 Route::delete('perusahaan/delete/{id}', [PerusahaanController::class, 'destroy'])->name('perusahaan.delete');
+// });

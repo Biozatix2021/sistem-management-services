@@ -36,18 +36,22 @@
             <form id="instalasiAlat">
                 @csrf
                 <div class="form-group row">
-                    <div class="col-md-6 mb-5">
+                    <div class="col-md-4 mb-5">
                         <label for="nama_alat">Nama Alat</label>
                         <input type="text" class="form-control" id="nama_alat" name="nama_alat" placeholder="Nama Alat">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="sn">SN</label>
                         <input type="text" class="form-control" id="sn" name="sn" placeholder="SN">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="status_instalasi">Status Instalasi</label>
-                    <input type="text" class="form-control" id="status_instalasi" name="status_instalasi" placeholder="Status Instalasi">
+                    <div class="col-md-4">
+                        <label for="status_instalasi">Status Instalasi</label>
+                        <select name="statusInstalasi" id="statusInstalasi" class="form-control">
+                            <option value="">Pilih Status Instalasi</option>
+                            <option value="KSO">KSO</option>
+                            <option value="BELI">BELI</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="teknisi">Teknisi</label>
